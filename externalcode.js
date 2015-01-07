@@ -18,7 +18,7 @@
 (function(){
 	function slidify(section, code) {
 		section.textContent = code;
-		if (hljs !== undefined) {
+		if (window["hljs"] !== undefined) {
 			hljs.highlightBlock(section);			
 		}
 	}
