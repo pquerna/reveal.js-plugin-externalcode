@@ -20,6 +20,8 @@
 		section.textContent = code;
 		if (window["hljs"] !== undefined) {
 			hljs.highlightBlock(section);			
+		} else if (window['Rainbow'] !== undefined) {
+			Rainbow.color(section);
 		}
 	}
 
