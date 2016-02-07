@@ -26,5 +26,15 @@ Optionally include highlight.js to provide code highlighting.
 </section>
 ```
 
+- Optionally specify a range of lines to be displayed, allowed are a single number for a single line,
+or a range separated by -; if you omit either side it will default to the beginning or end of the file:
+
+```html
+<section>
+	<h2>My C code fragment!</h2>
+	<pre><code data-code="./c/large_foo.c" data-code-range=20-30 data-trim></code></pre>
+</section>
+```
+
 - Serve your `index.html` over HTTP so that XHR requests can work.
 

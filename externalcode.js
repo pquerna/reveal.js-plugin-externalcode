@@ -25,14 +25,46 @@
 		}
 	}
 
+	function get_range(range_text) {
+		function get_int(text, default_value) {
+			var number = parseInt(text, 10);
+			return isNaN(number) ? default_value : number;
+		}
+
+		var range = { begin: 1, end: 1 << 30};
+
+		if (range_text.length > 0) {
+			var range_array = range_text.split("-");
+
+			if (range_array.length == 1) {
+				range_array.push(range_array[0]);
+			}
+
+			range.begin = get_int(range_array[0], range.begin);
+			range.end = get_int(range_array[1], range.end);
+		}
+
+		return range;
+	}
+
+	function select_lines(code, begin, end) {
+		var code_lines = code.split("\n");
+		var code_slice = code_lines.slice(begin - 1, end)
+		return code_slice.join("\n")
+	}
+
 	function fetchSection(section) {
 		var xhr = new XMLHttpRequest(),
 			url = section.getAttribute('data-code')
+			code_range = section.getAttribute('data-code-range')
 			done = false;
 
 		xhr.onreadystatechange = function() {
 			if (xhr.readyState === 4 && xhr.status >= 200 && xhr.status < 300) {
-				slidify(section,  xhr.responseText);
+				if (code_range == null)
+					code_range = "";
+				var range = get_range(code_range);
+				slidify(section,  select_lines(xhr.responseText, range.begin, range.end));
 				done = true;
 			} else if (!done) {
 				section.innerHTML = '<section data-state="alert">' +
